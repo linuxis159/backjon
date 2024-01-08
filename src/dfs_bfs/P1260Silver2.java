@@ -32,7 +32,7 @@ public class P1260Silver2 {
     static Map<Integer,Vertex> vertexs = new HashMap(1001);
     static Queue<Integer> queue = new LinkedList();
 
-    static class Vertex{
+    private static class Vertex{
         private boolean visitFlag = false;
         private int ownIndex;
         List<Integer> connectedVertexIndexs = new ArrayList();
