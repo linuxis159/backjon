@@ -23,6 +23,15 @@ import java.util.*;
 
 첫째 줄부터 V개의 줄에 걸쳐, i번째 줄에 i번 정점으로의 최단 경로의 경로값을 출력한다.
 시작점 자신은 0으로 출력하고, 경로가 존재하지 않는 경우에는 INF를 출력하면 된다.
+
+5 6
+1
+5 1 1
+1 2 2
+1 3 3
+2 3 4
+2 4 5
+3 4 6
 */
 public class P1753_최단경로 {
     public static Scanner sc = new Scanner(System.in);
@@ -35,9 +44,9 @@ public class P1753_최단경로 {
         int vertexCount = sc.nextInt();
         int edgeCount = sc.nextInt();
         int startVertexNum = sc.nextInt();
-        shortestPathValue = new int[vertexCount];
-        visit = new boolean[vertexCount];
-        for (int i = 0; i < vertexCount; i++) {
+        shortestPathValue = new int[vertexCount+1];
+        visit = new boolean[vertexCount+1];
+        for (int i = 1; i <shortestPathValue.length; i++) {
             shortestPathValue[i] = 999999;
             visit[i] = false;
         }
@@ -59,6 +68,14 @@ public class P1753_최단경로 {
         Vertex travelStartVertex = Vertex.vertexMap.get(startVertexNum);
         shortestPathValue[startVertexNum] = 0;
         travelStartVertex.travel();
+        for(int i=1; i<shortestPathValue.length; i++){
+            if(shortestPathValue[i] == 999999){
+                System.out.println("INF");
+            }
+            else{
+                System.out.println(shortestPathValue[i]);
+            }
+        }
 
     }
 
@@ -71,35 +88,69 @@ public class P1753_최단경로 {
 
         public Vertex(int vertexNum) {
             this.vertexNum = vertexNum;
-            Map<Integer, Vertex> vertexMap = new HashMap();
             vertexMap.put(vertexNum, this);
         }
 
         public void addToVertex(Vertex toVertex, int weight) {
+            if(toVertexList.contains(toVertex)) return;
+
             this.toVertexList.add(toVertex);
             this.edgeMap.put(toVertex.vertexNum, weight);
-
-            toVertex.addToVertex(this, weight);
-            toVertex.edgeMap.put(this.vertexNum, weight);
         }
 
 
         public void travel() {
+
+            visit[this.vertexNum] = true;
+            Integer[] vertexNumArr = Arrays.stream(edgeMap.keySet().toArray())
+                    .map(o -> (Integer) o)
+                    .toArray(Integer[]::new);
+
+            int selectedVertexNum = getMinWeightVertexNum(vertexNumArr);
+            if(selectedVertexNum == -9){
+                return;
+            }
+
+            for(int vertexNum : vertexNumArr){
+                if(visit[vertexNum] == false){
+                    if(shortestPathValue[vertexNum] > shortestPathValue[this.vertexNum] + edgeMap.get(vertexNum)){
+                        shortestPathValue[vertexNum] = shortestPathValue[this.vertexNum] + edgeMap.get(vertexNum);
+                    }
+                }
+                else continue;
+            }
+
+            for(int vertexNum : vertexNumArr){
+                if(visit[vertexNum] == false){
+                    Vertex nextVertex = vertexMap.get(vertexNum);
+                    nextVertex.travel();
+                }
+                else continue;
+            }
+
+
+
+        }
+
+
+        int getMinWeightVertexNum(Integer[] vertexNumArr){
             int selectedVetexNum = -9;
             int minWeight = 99999;
-            Integer[] vertexNumArr = (Integer[]) edgeMap.keySet().toArray();
             for (int vertexNum : vertexNumArr) {
-                int weight = edgeMap.get(vertexNum);
-                if (minWeight > weight) {
-                    minWeight = weight;
-                    selectedVetexNum = vertexNum;
+                if(visit[vertexNum] == false) {
+
+                    int weight = edgeMap.get(vertexNum);
+                    if (minWeight > weight) {
+                        minWeight = weight;
+                        selectedVetexNum = vertexNum;
+                    }
+                }else{
+                    continue;
                 }
             }
-            if (selectedVetexNum == -9) {
-
-
-            }
-
+            return selectedVetexNum;
+        }
+        void visit(Vertex vertex){
 
         }
     }
