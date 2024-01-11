@@ -1,8 +1,5 @@
 package graph;
 
-import dfs_bfs.P1260Silver2;
-
-import java.nio.file.WatchEvent;
 import java.util.*;
 
 /*
@@ -37,6 +34,7 @@ public class P1753_최단경로 {
     public static Scanner sc = new Scanner(System.in);
     static int[] shortestPathValue;
     static boolean[] visit;
+    static PriorityQueue priorityQueue = new PriorityQueue();
 
     public static void main(String[] args) {
 
@@ -44,17 +42,17 @@ public class P1753_최단경로 {
         int vertexCount = sc.nextInt();
         int edgeCount = sc.nextInt();
         int startVertexNum = sc.nextInt();
+
         shortestPathValue = new int[vertexCount+1];
         visit = new boolean[vertexCount+1];
-        for (int i = 1; i <shortestPathValue.length; i++) {
-            shortestPathValue[i] = 999999;
-            visit[i] = false;
-        }
+        Arrays.fill(visit,false);
+        Arrays.fill(shortestPathValue,999999);
 
         for (int i = 0; i < edgeCount; i++) {
             int fromVertexNum = sc.nextInt();
             int toVertexNum = sc.nextInt();
             int weight = sc.nextInt();
+
             Vertex fromVertex = Vertex.vertexMap.get(fromVertexNum);
             Vertex toVertex = Vertex.vertexMap.get(toVertexNum);
 
@@ -83,7 +81,6 @@ public class P1753_최단경로 {
 
         int vertexNum;
         static Map<Integer, Vertex> vertexMap = new HashMap();
-        List<Vertex> toVertexList = new ArrayList();
         Map<Integer, Integer> edgeMap = new HashMap();
 
         public Vertex(int vertexNum) {
@@ -92,62 +89,31 @@ public class P1753_최단경로 {
         }
 
         public void addToVertex(Vertex toVertex, int weight) {
-            if(toVertexList.contains(toVertex)){
-                if(edgeMap.get(toVertex.vertexNum) > weight){
-                    edgeMap.put(toVertex.vertexNum, weight);
-                }
-                return;
+            if(edgeMap.get(toVertex.vertexNum) == null){
+                edgeMap.put(toVertex.vertexNum, weight);
             }
-
-            this.toVertexList.add(toVertex);
-            this.edgeMap.put(toVertex.vertexNum, weight);
+            else if(edgeMap.get(toVertex.vertexNum) >= weight){
+                edgeMap.put(toVertex.vertexNum, weight);
+            }
         }
 
 
         public void travel() {
             visit[this.vertexNum] = true;
-            Integer[] toVertexNumArr = Arrays.stream(edgeMap.keySet().toArray())
-                    .map(o -> (Integer) o)
-                    .toArray(Integer[]::new);
-
-
-            for(int vertexNum : toVertexNumArr){
+            Iterator<Integer> iterator = edgeMap.keySet().iterator();
+            while(iterator.hasNext()){
+                int vertexNum = iterator.next();
                 if(shortestPathValue[vertexNum] > shortestPathValue[this.vertexNum] + edgeMap.get(vertexNum)){
                     shortestPathValue[vertexNum] = shortestPathValue[this.vertexNum] + edgeMap.get(vertexNum);
+                    priorityQueue.add(vertexNum);
                 }
             }
-            while(true) {
-                int selectedVertexNum = getMinWeightVertexNum(toVertexNumArr);
-                if (selectedVertexNum == -9) {
-                    return;
-                }
-                Vertex nextVertex = vertexMap.get(selectedVertexNum);
+
+            while(!priorityQueue.isEmpty()) {
+                Vertex nextVertex = vertexMap.get(priorityQueue.poll());
                 nextVertex.travel();
 
             }
-        }
-
-
-
-
-        int getMinWeightVertexNum(Integer[] vertexNumArr){
-            int selectedVetexNum = -9;
-            int minWeight = 99999;
-            for (int vertexNum : vertexNumArr) {
-                if(visit[vertexNum] == false) {
-                    int weight = shortestPathValue[vertexNum];
-                    if (minWeight > weight) {
-                        minWeight = weight;
-                        selectedVetexNum = vertexNum;
-                    }
-                }else{
-                    continue;
-                }
-            }
-            return selectedVetexNum;
-        }
-        void visit(Vertex vertex){
-
         }
     }
 }
