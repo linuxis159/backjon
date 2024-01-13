@@ -34,7 +34,7 @@ public class P1753_최단경로 {
     public static Scanner sc = new Scanner(System.in);
     static int[] shortestPathValue;
     static boolean[] visit;
-    static PriorityQueue priorityQueue = new PriorityQueue();
+    static PriorityQueue<VertexVo> priorityQueue = new PriorityQueue();
 
     public static void main(String[] args) {
 
@@ -76,7 +76,20 @@ public class P1753_최단경로 {
         }
 
     }
+    private static class VertexVo implements Comparable<VertexVo>{
+        int vertexNum;
+        int weight;
+        public VertexVo(int vertexNum, int weight){
+            this.vertexNum = vertexNum;
+            this.weight = weight;
+        }
 
+
+        @Override
+        public int compareTo(VertexVo o) {
+            return Integer.compare(this.weight, o.weight);
+        }
+    }
     private static class Vertex {
 
         int vertexNum;
@@ -105,14 +118,20 @@ public class P1753_최단경로 {
                 int vertexNum = iterator.next();
                 if(shortestPathValue[vertexNum] > shortestPathValue[this.vertexNum] + edgeMap.get(vertexNum)){
                     shortestPathValue[vertexNum] = shortestPathValue[this.vertexNum] + edgeMap.get(vertexNum);
-                    priorityQueue.add(vertexNum);
+                    priorityQueue.add(new VertexVo(vertexNum, shortestPathValue[vertexNum]));
+                    System.out.println(this.vertexNum);
+                    for(int pathValue :shortestPathValue){
+                        System.out.print(pathValue +" ");
+                    }
+                    System.out.println();
                 }
             }
 
             while(!priorityQueue.isEmpty()) {
-                Vertex nextVertex = vertexMap.get(priorityQueue.poll());
+                Vertex nextVertex = vertexMap.get(priorityQueue.poll().vertexNum);
+                if(visit[nextVertex.vertexNum])
+                    continue;
                 nextVertex.travel();
-
             }
         }
     }
