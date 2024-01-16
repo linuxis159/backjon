@@ -8,11 +8,12 @@ public class P2750_Merge {
     private static Scanner sc = new Scanner(System.in);
     public static void main(String[] args){
         int N = sc.nextInt();
+        N += 1;
         numberArr = new int[N];
-        for(int i=0; i<N; i++){
+        for(int i=1; i<N; i++){
             numberArr[i] =  sc.nextInt();
         }
-        mergeSort(numberArr, 0, numberArr.length-1);
+        mergeSort(numberArr, 1, numberArr.length-1);
         for(int value : numberArr) {
             sb.append(value).append("\n");
         }
@@ -21,7 +22,7 @@ public class P2750_Merge {
     }
     public static void mergeSort(int[] numberArr, int left, int right){
         if(left < right){
-            int middle = left + right / 2;
+            int middle = (left + right) / 2;
             System.out.println(left+","+middle+","+right);
             mergeSort(numberArr,left, middle);
             mergeSort(numberArr,middle+1, right);
@@ -37,7 +38,7 @@ public class P2750_Merge {
         int[] rightArray = new int[rightArraySize];
         for(int i=0; i<leftArray.length; i++)
             leftArray[i] = numberArr[left+i];
-        for(int i=0; i<leftArray.length-1; i++)
+        for(int i=0; i<rightArray.length; i++)
             rightArray[i] = numberArr[middle+i+1];
 
         int leftArrayIndex  = 0;
@@ -45,11 +46,11 @@ public class P2750_Merge {
         int i = left;
         while(leftArrayIndex < leftArraySize && rightArrayIndex < rightArraySize){
             if(leftArray[leftArrayIndex] < rightArray[rightArrayIndex]){
-                numberArr[i] = numberArr[leftArrayIndex];
+                numberArr[i] = leftArray[leftArrayIndex];
                 leftArrayIndex++;
             }
             else {
-                numberArr[i] = numberArr[rightArrayIndex];
+                numberArr[i] = rightArray[rightArrayIndex];
                 rightArrayIndex++;
             }
             i++;
