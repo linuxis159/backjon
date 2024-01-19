@@ -28,19 +28,67 @@ import java.util.*;
         첫째 줄에 모든 작업을 완료하기 위한 최소 시간을 출력한다.*/
 public class P2056_작업 {
     public static Scanner sc = new Scanner(System.in);
+    static int completeTaskTime = 0;
+    static Queue<Node> queue = new LinkedList();
+    static List<Node> allNode = new ArrayList();
 
     public static void main(String[] args){
         int N = sc.nextInt();
         for(int i=0; i<N; i++){
             int taskTime = sc.nextInt();
             int requiredTaskNum = sc.nextInt();
-            for(int j=0; j<requiredTaskNum; j++){
-                int taskNum = sc.nextInt();
+            Node node = new Node(i, taskTime);
+            allNode.add(node);
+            if(requiredTaskNum == 0){
+                queue.add(node);
+                continue;
+            }
+            for(int j=0; j<requiredTaskNum; j++) {
+                node.requiredNode.put(sc.nextInt()-1, null);
             }
         }
 
+        while(!queue.isEmpty()){
 
+            Node node = queue.poll();
+            if(node.visit == true){
+                continue;
+            }
+            node.visit = true;
+            node.taskTime += node.maxTaskTime;
+            if(node.taskTime > completeTaskTime){
+                completeTaskTime = node.taskTime;
+            }
+            System.out.println(node.taskNum+","+node.taskTime);
+            for(Node n  : allNode){
+                n.removeEdge(node.taskNum);
+            }
+        }
+        System.out.println(completeTaskTime);
 
+    }
+    static class Node{
+        int taskNum;
+        int taskTime;
+        int maxTaskTime = 0;
+        Map<Integer, Integer> requiredNode = new HashMap();
+        boolean visit = false;
+        private Node(int taskNum, int taskTime){
+            this.taskNum = taskNum;
+            this.taskTime = taskTime;
+        }
+        void removeEdge(int taskNum){
+            if(requiredNode.containsKey(taskNum)){
+                Node targetNode = allNode.get(taskNum);
+                if(maxTaskTime < targetNode.taskTime){
+                    maxTaskTime = targetNode.taskTime;
+                }
+                this.requiredNode.remove(taskNum);
+            }
+            if(this.requiredNode.isEmpty() && this.visit == false){
+                queue.add(this);
+            }
+        }
     }
 
 }
