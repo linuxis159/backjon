@@ -1,26 +1,91 @@
 package graph.topologicalSorting;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
 
 public class P1005_ACMCraft {
-    public static Scanner sc = new Scanner(System.in);
-    public static int[] buildingTime;
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringBuilder builder = new StringBuilder();
     public static int[][] buildingRule;
-    public static void main(String[] args){
-        int T = sc.nextInt();
+    public static List<Building> buildingList;
+    public static Queue<Building> queue = new LinkedList();
+    public static List<Integer> resultList = new ArrayList();
+    public static void main(String[] args) throws IOException {
+        int T = Integer.parseInt(br.readLine());
         for(int i=0; i<T; i++){
-            int N = sc.nextInt();
-            int K = sc.nextInt();
-            buildingTime = new int[N];
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int N = Integer.parseInt(st.nextToken());
+            int K = Integer.parseInt(st.nextToken());
             buildingRule = new int[K][2];
+            buildingList = new ArrayList();
+            st = new StringTokenizer(br.readLine());
             for(int j=0; j<N; j++){
-                buildingTime[j] = sc.nextInt();
+                int buildingTime = Integer.parseInt(st.nextToken());
+                buildingList.add(new Building(j, buildingTime));
             }
             for(int k=0; k<K; k++){
-                buildingRule[k][0] = sc.nextInt();
-                buildingRule[k][1] = sc.nextInt();
+                st = new StringTokenizer(br.readLine());
+                int requiredBuildingNum =  Integer.parseInt(st.nextToken()) - 1;
+                int buildingNum  = Integer.parseInt(st.nextToken()) - 1;
+                Building building = buildingList.get(buildingNum);
+                building.requiredBuindNum.add(requiredBuildingNum);
             }
+            st = new StringTokenizer(br.readLine());
+            int victoryBuildingNum = Integer.parseInt(st.nextToken()) - 1;
+            queue = new LinkedList();
+            for(int l=0; l<buildingList.size(); l++){
+                Building building = buildingList.get(l);
+                if(building.requiredBuindNum.isEmpty())
+                    queue.add(building);
+            }
+
+            while(!queue.isEmpty()){
+                Building building = queue.poll();
+                if(building.buildingNum == victoryBuildingNum){
+                    resultList.add(building.thisBuildingTime);
+                    break;
+                }
+                if(building.visit)
+                    continue;
+                building.visit = true;
+                for(Building tagetBuilding : buildingList){
+                    tagetBuilding.completedRequiredBuilding(building.buildingNum);
+                }
+            }
+
+        }
+        for(int result : resultList){
+           System.out.println(result);
         }
 
     }
+    static class Building{
+        int buildingNum;
+        Set<Integer> requiredBuindNum = new HashSet();
+        int maxRequiredBuildingTime = 0;
+        int thisBuildingTime;
+        boolean visit = false;
+        Building(int buildingNum, int thisBuildingTime){
+            this.buildingNum = buildingNum;
+            this.thisBuildingTime = thisBuildingTime;
+        }
+        void completedRequiredBuilding(int buildingNum){
+            if(this.requiredBuindNum.contains(buildingNum)){
+                Building building = buildingList.get(buildingNum);
+                if(maxRequiredBuildingTime < building.thisBuildingTime)
+                    maxRequiredBuildingTime = building.thisBuildingTime;
+                requiredBuindNum.remove(buildingNum);
+                if(this.requiredBuindNum.isEmpty() && !this.visit) {
+                    thisBuildingTime += maxRequiredBuildingTime;
+                    queue.add(this);
+                }
+            }
+        }
+
+
+    }
+
+
 }
