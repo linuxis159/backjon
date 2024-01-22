@@ -1,41 +1,59 @@
 package graph.unionFind;
 
+
+import java.io.*;
 import java.util.*;
 
 public class P1717_집합의표현 {
-    public static Scanner sc = new Scanner(System.in);
-    static Map<Integer, Integer> elementMap;
-    public static void main(String[] args){
-        int N = sc.nextInt();
-        int M = sc.nextInt();
-        elementMap = new HashMap(N);
-        for(int i=0; i<M; i++){
-            int flag = sc.nextInt();
-            int a = sc.nextInt();
-            int b = sc.nextInt();
-            int aValue;
-            int bValue;
-            if(elementMap.containsKey(a)) aValue = elementMap.get(a);
-            else {
-                elementMap.put(a, a);
-                aValue = a;
-            }
-            if(elementMap.containsKey(b)) bValue = elementMap.get(b);
-            else {
-                elementMap.put(b, b);
-                bValue = b;
-            }
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    public static int[] parent;
 
-            if(flag == 0){
+        public static void main(String[] args) throws IOException {
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        parent = new int[N+1];
+        Arrays.fill(parent, -1);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < M; i++) {
+            st = new StringTokenizer(br.readLine());
+            int flag = Integer.parseInt(st.nextToken());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
 
-            }
-            else{
-                if(aValue == bValue)
-                    System.out.println("YES");
-                else
-                    System.out.println("NO");
+            if (parent[a] == -1) parent[a] = a;
+            if (parent[b] == -1) parent[b] = b;
+
+            int aParentIndex = findParentIndex(a);
+            int bParentIndex = findParentIndex(b);
+            if (flag == 0) {
+                if (aParentIndex > bParentIndex) {
+                    parent[aParentIndex] = bParentIndex;
+                }
+
+                else if (aParentIndex < bParentIndex) {
+                    parent[bParentIndex] = aParentIndex;
+                }
+
+            } else {
+                sb.append((aParentIndex == bParentIndex ? "YES" : "NO") + "\n");
             }
         }
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+        br.close();
 
     }
+
+
+
+    static int findParentIndex(int index){
+        if(parent[index] == index)
+            return index;
+        return findParentIndex(parent[index]);
+    }
+
+
 }
