@@ -9,13 +9,14 @@ public class P24090_Quick {
     static int K = 0;
     public static void main(String[] args){
         int N = sc.nextInt();
-        int K = sc.nextInt();
+        K = sc.nextInt();
         numberArr = new int[N];
         for(int i=0; i<N; i++){
             numberArr[i] = sc.nextInt();
         }
         quickSort(0, numberArr.length-1);
-        System.out.println(-1);
+        if(swapCount < K)
+            System.out.println(-1);
 
     }
     static void quickSort(int left, int right){
@@ -26,22 +27,16 @@ public class P24090_Quick {
         quickSort(pivot+1, right);
     }
     static int getPivot(int left, int right){
-        int pivot = left;
-        int leftIndex = pivot+1;
-        int rightIndex = right;
-        while(leftIndex <= rightIndex){
-            if(numberArr[leftIndex] > numberArr[pivot]){
-                if(numberArr[rightIndex] <= numberArr[pivot]){
-                    swap(leftIndex, rightIndex);
-                    leftIndex++;
-                    rightIndex--;
-                }
-                else rightIndex--;
-            }
-            else leftIndex++;
+        int pivot = right;
+        int i = left - 1;
+        while(left < right){
+            if(numberArr[left] <= numberArr[pivot])
+                swap(left, ++i);
+            left++;
         }
-        swap(pivot,rightIndex);
-        return rightIndex;
+        if(i + 1 != right)
+            swap(i + 1, right);
+        return i+1;
     }
     static void swap(int leftIndex, int rightIndex){
         swapCount++;
