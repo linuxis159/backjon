@@ -1,16 +1,22 @@
 package datastructure.queue.priorityQueue;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class P1927_최소힙 {
-    private static Scanner sc = new Scanner(System.in);
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringBuilder builder = new StringBuilder();
     private static MinHeap minHeap = new MinHeap();
-    public static void main(String[] args){
-        int N = sc.nextInt();
+    public static void main(String[] args) throws IOException {
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
         for(int i=0; i<N; i++){
-            int num = sc.nextInt();
+            st = new StringTokenizer(br.readLine());
+            int num = Integer.parseInt(st.nextToken());
             if(num == 0) System.out.println(minHeap.pop());
             else minHeap.addNode(num);
 
@@ -49,7 +55,25 @@ public class P1927_최소힙 {
         public int pop() {
             if(list.isEmpty()) return 0;
             else {
-
+                swap(0, list.size() - 1);
+                int removed = list.remove(list.size() - 1);
+                heapifyDown(0);return removed;
+            }
+        }
+        void heapifyDown(int index){
+            int leftIndex = (index * 2) + 1;
+            int rightIndex = (index * 2) + 2;
+            if(list.size() <= leftIndex)
+                return;
+            else if(list.get(leftIndex) < list.get(index)){
+                swap(leftIndex, index);
+                heapifyDown(leftIndex);
+            }
+            if(list.size() <= rightIndex)
+                return;
+            else if(list.get(rightIndex) < list.get(index)){
+                swap(rightIndex, index);
+                heapifyDown(rightIndex);
             }
         }
     }
