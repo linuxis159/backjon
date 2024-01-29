@@ -34,6 +34,7 @@ public class P1991_트리순회 {
                 allNodeMap.put(nodeName, node);
             }
             else node = allNodeMap.get(nodeName);
+
             node.leftNode = leftNode;
             node.rightNode = rightNode;
 
@@ -66,16 +67,16 @@ public class P1991_트리순회 {
         void travelInorder(Node node){
             if(node == null)
                 return;
-            travelPreorder(node.leftNode);
-            System.out.println(node.my);
-            travelPreorder(node.rightNode);
+            travelInorder(node.leftNode);
+            System.out.print(node.my);
+            travelInorder(node.rightNode);
         }
         void traverPostorder(Node node){
             if(node == null)
                 return;
-            travelPreorder(node.leftNode);
-            travelPreorder(node.rightNode);
-            System.out.println(node.my);
+            traverPostorder(node.leftNode);
+            traverPostorder(node.rightNode);
+            System.out.print(node.my);
         }
 
     }
