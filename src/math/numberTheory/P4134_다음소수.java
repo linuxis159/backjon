@@ -1,8 +1,6 @@
-package meth.numberTheory;
+package math.numberTheory;
 
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
 public class P4134_다음소수 {
     private static Scanner sc = new Scanner(System.in);

@@ -1,4 +1,4 @@
-package meth.numberTheory.leastComnonMultiple;
+package math.numberTheory.leastComnonMultiple;
 
 
 import java.util.Scanner;

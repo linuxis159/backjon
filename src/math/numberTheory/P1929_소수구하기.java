@@ -1,4 +1,4 @@
-package meth.numberTheory;
+package math.numberTheory;
 
 import java.util.Scanner;
 
