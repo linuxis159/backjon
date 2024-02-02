@@ -1,4 +1,4 @@
-package meth.combinatorics;
+package math.combinatorics;
 
 import java.util.Scanner;
 
