@@ -61,7 +61,6 @@ public class P1916_최소비용구하기 {
                 }
             }
             else edgeMap.put(to, cost);
-
         }
 
         @Override
