@@ -59,7 +59,6 @@ public class P1005_ACMCraft {
         for(int result : resultList){
            System.out.println(result);
         }
-
     }
     static class Building{
         int buildingNum;

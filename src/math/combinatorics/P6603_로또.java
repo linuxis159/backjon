@@ -10,6 +10,9 @@ public class P6603_로또 {
             int N = sc.nextInt();
             if(N == 0) return;
             int[] arr = new int[N];
+            for(int i=0; i<N; i++){
+                arr[i] = sc.nextInt();
+            }
 
         }
 
