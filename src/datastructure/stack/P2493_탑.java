@@ -8,46 +8,49 @@ import java.util.*;
 public class P2493_탑 {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static StringBuilder builder = new StringBuilder();
-    static Stack<Integer> topStack = new Stack();
-    static int[] result;
+    static Stack<Top> topStack = new Stack();
+    static Stack<Top> tempStack = new Stack();
     public static void main(String[] args) throws IOException {
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         st = new StringTokenizer(br.readLine());
-        result = new int[N];
-        for(int i=0; i<N; i++){
+        Top firstTop = new Top(1, Integer.parseInt(st.nextToken()));
+        builder.append(0 + " ");
+        topStack.push(firstTop);
+        Top mostHighestTop = firstTop;
+        for(int i=1; i<N; i++){
             int topHeight = Integer.parseInt(st.nextToken());
-            topStack.push(topHeight);
-        }
-
-        for(int i=0; i<N; i++){
-            int currentTopIndex = N-1-i;
-            boolean flag = false;
-            int currentTopHeight = topStack.pop();
-            for(int j=topStack.size()-1; j > 0; j--){
-                int topHeight = topStack.get(j);
-                if(currentTopHeight < topHeight){
-                    result[currentTopIndex] = j+1;
-                    flag = true;
-                    break;
+            Top newTop = new Top(i+1, topHeight);
+            if(topHeight < mostHighestTop.height){
+                while(!topStack.isEmpty()) {
+                    Top top = topStack.pop();
+                    if(top.height > topHeight){
+                        builder.append(top.topNum + " ");
+                        topStack.push(top);
+                        topStack.push(newTop);
+                        break;
+                    }
                 }
             }
-            if(flag == false)
-                result[currentTopIndex] = 0;
+            else{
+                topStack.clear();
+                builder.append(0 + " ");
+                mostHighestTop = newTop;
+            }
+            topStack.push(newTop);
         }
 
-        for(int result : result){
-            System.out.print(result + " ");
-        }
+        System.out.print(builder);
+
+
     }
-    private static class Top{
+    static class Top{
+        int height;
         int topNum;
-        int topHeight;
-
-        private Top(int topNum, int topHeight){
+        Top(int topNum, int height){
             this.topNum = topNum;
-            this.topHeight = topHeight;
-
+            this.height = height;
         }
     }
+
 }
