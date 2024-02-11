@@ -1,4 +1,4 @@
-package graph.dijkstra;
+package math.combinatorics.graph.dijkstra;
 import java.util.*;
 
 public class P11779_최소비용구하기2 {

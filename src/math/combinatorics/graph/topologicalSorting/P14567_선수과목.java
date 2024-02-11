@@ -1,6 +1,5 @@
-package graph.topologicalSorting;
+package math.combinatorics.graph.topologicalSorting;
 
-import javax.security.auth.Subject;
 import java.util.*;
 
 public class P14567_선수과목 {

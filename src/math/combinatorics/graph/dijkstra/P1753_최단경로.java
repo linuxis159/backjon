@@ -1,4 +1,4 @@
-package graph.dijkstra;
+package math.combinatorics.graph.dijkstra;
 
 import java.util.*;
 

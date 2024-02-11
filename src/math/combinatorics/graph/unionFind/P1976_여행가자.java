@@ -1,4 +1,4 @@
-package graph.unionFind;
+package math.combinatorics.graph.unionFind;
 
 import java.util.Scanner;
 

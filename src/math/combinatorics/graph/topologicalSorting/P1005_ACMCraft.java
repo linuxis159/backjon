@@ -1,4 +1,4 @@
-package graph.topologicalSorting;
+package math.combinatorics.graph.topologicalSorting;
 
 import java.io.BufferedReader;
 import java.io.IOException;
