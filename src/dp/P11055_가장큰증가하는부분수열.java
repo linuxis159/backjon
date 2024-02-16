@@ -6,7 +6,7 @@ import java.util.StringTokenizer;
 
 public class P11055_가장큰증가하는부분수열 {
 
-static Scanner sc = new Scanner(System.in);
+    static Scanner sc = new Scanner(System.in);
     static int N;
     static int[][] dp;
     static int result = 0;
