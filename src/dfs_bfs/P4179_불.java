@@ -1,16 +1,10 @@
 package dfs_bfs;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 public class P4179_불 {
     private static Scanner sc = new Scanner(System.in);
     static char[][] maze;
-    static int firePositionX;
-    static int firePositionY;
-    static int humanPositionX;
-    static int humanPositionY;
     static Queue<Position> humanQueue = new LinkedList();
     static Queue<Position> fireQueue = new LinkedList();
     static Queue<Position> fireTempQueue = new LinkedList();
@@ -21,23 +15,19 @@ public class P4179_불 {
     public static void main(String[] args){
         int R = sc.nextInt();
         int C = sc.nextInt();
-        maze = new char[C][R];
-        for(int i=0; i<C; i++){
+        maze = new char[R][C];
+        for(int i=0; i<R; i++){
             String input = sc.next();
-            for(int j=0; j<R; j++){
+            for(int j=0; j<C; j++){
                 maze[i][j] = input.charAt(j);
                 if(maze[i][j] == 'J'){
-                    humanPositionX = j;
-                    humanPositionY = i;
+                    humanQueue.add(new Position(j, i));
                 }
                 else if(maze[i][j] == 'F'){
-                    firePositionX = j;
-                    firePositionY = i;
+                    fireQueue.add(new Position(j, i));
                 }
             }
         }
-        humanQueue.add(new Position(humanPositionX, humanPositionY));
-        fireQueue.add(new Position(firePositionX, firePositionY));
         bfs();
         if(!success)
             System.out.println("IMPOSSIBLE");
@@ -121,7 +111,7 @@ public class P4179_불 {
                         fireTempQueue.add(new Position(firePosition.x - 1, firePosition.y));
                     }
                 }
-                }
+            }
 
             while (!fireTempQueue.isEmpty()){
                 fireQueue.add(fireTempQueue.poll());
