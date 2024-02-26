@@ -45,14 +45,12 @@ public class P17298_오큰수 {
             while(!stack.empty()){
                 Node poped = stack.pop();
                 if(newNode.value <= poped.value) {
-                    tempStack.push(poped);
+                    stack.push(poped);
+                    break;
                 }
                 else {
                     result[poped.index] = newNode.value;
                 }
-            }
-            while(!tempStack.isEmpty()){
-                stack.push(tempStack.pop());
             }
             stack.push(newNode);
             result[i] = -1;
@@ -60,7 +58,6 @@ public class P17298_오큰수 {
         for(int i=0; i < result.length; i++){
             if( i == result.length)
                 sb.append(result[i]);
-
             sb.append(result[i] +" ");
         }
         System.out.print(sb);
