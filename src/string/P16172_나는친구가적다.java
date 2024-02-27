@@ -5,9 +5,7 @@ import java.util.Scanner;
 public class P16172_나는친구가적다 {
     static Scanner sc = new Scanner(System.in);
     static int[] patternJumpTable;
-    static char[] skipChar = {
-            '0','1','2','3','4','5','6','7','8','9'
-    };
+
     public static void main(String[] args){
         String target = sc.next();
         String pattern = sc.next();
@@ -20,13 +18,13 @@ public class P16172_나는친구가적다 {
                 j = patternJumpTable[j-1];
             }
             if(pattern.charAt(i) == pattern.charAt(j)){
-                patternJumpTable[j] = ++j;
+                patternJumpTable[i] = ++j;
             }
         }
+
         j = 0;
 
         for(int i=0; i<target.length(); i++){
-            boolean flag = false;
 
             if(48 <= target.charAt(i) && target.charAt(i) <= 57)
                 continue;
