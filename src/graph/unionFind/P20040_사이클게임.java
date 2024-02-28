@@ -7,13 +7,42 @@ import java.util.StringTokenizer;
 
 public class P20040_사이클게임 {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static int[] cycle;
     public static void main(String[] args) throws IOException {
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
-
-        for(int i=0; i<N; i++){
-            st = new StringTokenizer(br.readLine());
+        cycle = new int[N+1];
+        for(int i=1; i<=N; i++){
+            cycle[i] = i;
         }
+        int check = 0;
+        for(int i=1; i<=M; i++){
+            st = new StringTokenizer(br.readLine());
+            int left = Integer.parseInt(st.nextToken());
+            int right = Integer.parseInt(st.nextToken());
+
+            getParent(left);
+            getParent(right);
+            if(leftParent == rightParent){
+                check = i;
+                break;
+            }
+            if(leftParent > rightParent)
+                cycle[leftParent] = right;
+            else
+                cycle[rightParent] = left;
+        }
+        System.out.println(check);
+
+    }
+    static void getParent(int index){
+        if(cycle[index] == index){
+            cycle[index] = index;
+            return;
+        }
+
+        getParent(cycle[index]);
+
     }
 }
