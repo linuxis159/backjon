@@ -1,13 +1,11 @@
-package graph.unionFind;
+package graph.minimumSpanningTree;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.*;
 
-public class P20040_사이클게임 {
+public class P1197_최소스패닝트리 {
     static int connectedCount = 0;
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static Queue<EdgeInfo> priorityQueue = new PriorityQueue();
@@ -21,8 +19,8 @@ public class P20040_사이클게임 {
         for(int i=0; i<E; i++){
             st = new StringTokenizer(br.readLine());
             EdgeInfo edgeInfo = new EdgeInfo(Integer.parseInt(st.nextToken()),
-                    Integer.parseInt(st.nextToken()),
-                    Integer.parseInt(st.nextToken()));
+                            Integer.parseInt(st.nextToken()),
+                            Integer.parseInt(st.nextToken()));
             priorityQueue.add(edgeInfo);
         }
         while(connectedCount != V-1){
@@ -33,10 +31,10 @@ public class P20040_사이클게임 {
                 continue;
             else {
                 if(V1Parent > V2Parent){
-                    vertexUnionNum[V1Parent] = edgeInfo.V2;
+                    setParent(edgeInfo.V1, edgeInfo.V2);
                 }
                 else{
-                    vertexUnionNum[V2Parent] = edgeInfo.V1;
+                    setParent(edgeInfo.V2, edgeInfo.V1);
                 }
                 connectedCount++;
                 totalWeight += edgeInfo.weight;
@@ -62,7 +60,16 @@ public class P20040_사이클게임 {
         }
     }
 
-
+    static void setParent(int index,int setIndex){
+        if(vertexUnionNum[index] == index) {
+            vertexUnionNum[index] = setIndex;
+            return;
+        }
+        else {
+            setParent(vertexUnionNum[index], setIndex);
+            vertexUnionNum[index] = setIndex;
+        }
+    }
     static int getParent(int index){
         if(vertexUnionNum[index] == index)
             return index;
