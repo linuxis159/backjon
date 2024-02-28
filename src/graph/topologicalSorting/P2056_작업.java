@@ -1,4 +1,4 @@
-package math.combinatorics.graph.topologicalSorting;
+package graph.topologicalSorting;
 
 import java.util.*;
 
