@@ -22,8 +22,8 @@ public class P20040_사이클게임 {
             int left = Integer.parseInt(st.nextToken());
             int right = Integer.parseInt(st.nextToken());
 
-            getParent(left);
-            getParent(right);
+            int leftParent   = getParent(left);
+            int rightParent  = getParent(right);
             if(leftParent == rightParent){
                 check = i;
                 break;
@@ -36,13 +36,11 @@ public class P20040_사이클게임 {
         System.out.println(check);
 
     }
-    static void getParent(int index){
+    static int getParent(int index){
         if(cycle[index] == index){
-            cycle[index] = index;
-            return;
+            return index;
         }
 
-        getParent(cycle[index]);
-
+        return cycle[index] = getParent(cycle[index]);
     }
 }
