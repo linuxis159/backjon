@@ -46,7 +46,7 @@ public class P15654_N과M5 {
             if(!visit[i]){
                 visit[i] = true;
                 result[depth] = num[i];
-                dfs(++depth);
+                dfs(depth+1);
                 visit[i] = false;
             }
         }
