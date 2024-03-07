@@ -3,7 +3,7 @@ package string;
 import java.math.BigInteger;
 import java.util.Scanner;
 
-public class P3033_가장긴문자열_라빈카프 {
+public class P3033_Hashing {
     static Scanner sc = new Scanner(System.in);
     public static void main(String[] args){
         int N = sc.nextInt();
