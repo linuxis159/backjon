@@ -1,3 +1,4 @@
+import sys
 from typing import Dict, List
 
 
@@ -20,15 +21,23 @@ def dfs(vertex : Vertex):
             continue
         dfs(vertexDict.get(edgeNum))
 
-def bfs():
-    vertexDict = Dict[int, Dict]
+def bfs(vertex : Vertex):
+    global visit
+    global vertexDict
 
+    for vertexNum in queue:
+        vertex = vertexDict.get(vertexNum)
+        for edgeNum in vertex.edgeNumList:
+            if visit[edgeNum] == True:
+                continue
+            visit[edgeNum] = True
+            print(str(edgeNum),  end=" ")
+            queue.append(edgeNum)
 
 inputData = input().split()
 N = int(inputData[0])
 M = int(inputData[1])
 V = int(inputData[2])
-visit = [False for i in range(N+1)]
 vertexDict: Dict[int, Vertex] = {}
 for i in range(0, M):
     inputData = input().split()
@@ -46,4 +55,16 @@ for i in range(0, M):
     v2Vertex.addEdge(V1)
 
 vertex = vertexDict.get(V)
-dfs(vertex)
+if vertex == None:
+    print(V,  end=" ")
+    print(V,  end=" ")
+    sys.exit()
+else:
+    visit = [False for i in range(N+1)]
+    dfs(vertex)
+    visit = [False for i in range(N+1)]
+    queue = [vertex.vertexNum]
+    visit[vertex.vertexNum] = True
+    print()
+    print(str(vertex.vertexNum),  end=" ")
+    bfs(vertex)
