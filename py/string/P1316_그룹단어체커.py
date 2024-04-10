@@ -5,20 +5,22 @@ for i in range(N):
     word = input()
     charSet = set()
     flag = False
-    for j in range(0, len(word)):
-        if word[j] in charSet:
+    i = 0
+
+    while i < len(word):
+        if word[i] in charSet:
             flag = True
             break
         else:
-            try:
-                charSet.add(word[j])
-                if len(word) != j+1:
-                    if word[j] == word[j+1]:
-                        while word[j] == word[j+1]:
-                            j+=1
-            except IndexError as e :
-                pass
-    if flag == False:
-        cnt+=1
+            charSet.add(word[i])
+
+        # 현재 문자와 다음 문자가 같을 때, 같지 않을 때까지 인덱스를 증가
+        while i + 1 < len(word) and word[i] == word[i+1]:
+            i += 1
+
+        i += 1
+
+    if not flag:
+        cnt += 1
 print(cnt)
 

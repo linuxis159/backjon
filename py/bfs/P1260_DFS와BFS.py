@@ -21,6 +21,9 @@ def dfs(vertex : Vertex):
             continue
         dfs(vertexDict.get(edgeNum))
 
+
+
+
 def bfs(vertex : Vertex):
     global visit
     global vertexDict
